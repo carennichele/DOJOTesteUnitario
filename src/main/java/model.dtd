@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<!--
+    TODO define vocabulary identification
+    PUBLIC ID: -//vendor//vocabulary//EN
+    SYSTEM ID: http://server/path/model.dtd
+
+-->
+
+<!--
+    An example how to use this DTD from your XML document:
+
+    <?xml version="1.0"?>
+
+    <!DOCTYPE class-diagram SYSTEM "model.dtd">
+
+    <class-diagram>
+    ...
+    </class-diagram>
+-->
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT class-diagram (class|classifier-display|association-display)*>
+<!ATTLIST class-diagram
+    version CDATA #IMPLIED
+    icons CDATA #IMPLIED
+    always-add-relationships CDATA #IMPLIED
+    generalizations CDATA #IMPLIED
+    realizations CDATA #IMPLIED
+    associations CDATA #IMPLIED
+    dependencies CDATA #IMPLIED
+    nesting-relationships CDATA #IMPLIED
+    router CDATA #IMPLIED
+  >
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT class (position|display)*>
+<!ATTLIST class
+    id CDATA #IMPLIED
+    language CDATA #IMPLIED
+    name CDATA #IMPLIED
+    project CDATA #IMPLIED
+    file CDATA #IMPLIED
+    binary CDATA #IMPLIED
+    corner CDATA #IMPLIED
+  >
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT position EMPTY>
+<!ATTLIST position
+    height CDATA #IMPLIED
+    width CDATA #IMPLIED
+    x CDATA #IMPLIED
+    y CDATA #IMPLIED
+  >
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT display (attributes|operations)*>
+<!ATTLIST display
+    autosize CDATA #IMPLIED
+    stereotype CDATA #IMPLIED
+    package CDATA #IMPLIED
+    initial-value CDATA #IMPLIED
+    signature CDATA #IMPLIED
+    sort-features CDATA #IMPLIED
+    accessors CDATA #IMPLIED
+    visibility CDATA #IMPLIED
+  >
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT attributes EMPTY>
+<!ATTLIST attributes
+    public CDATA #IMPLIED
+    package CDATA #IMPLIED
+    protected CDATA #IMPLIED
+    private CDATA #IMPLIED
+    static CDATA #IMPLIED
+  >
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT operations EMPTY>
+<!ATTLIST operations
+    public CDATA #IMPLIED
+    package CDATA #IMPLIED
+    protected CDATA #IMPLIED
+    private CDATA #IMPLIED
+    static CDATA #IMPLIED
+  >
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT classifier-display (attributes|operations)*>
+<!ATTLIST classifier-display
+    autosize CDATA #IMPLIED
+    stereotype CDATA #IMPLIED
+    package CDATA #IMPLIED
+    initial-value CDATA #IMPLIED
+    signature CDATA #IMPLIED
+    sort-features CDATA #IMPLIED
+    accessors CDATA #IMPLIED
+    visibility CDATA #IMPLIED
+  >
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT association-display EMPTY>
+<!ATTLIST association-display
+    labels CDATA #IMPLIED
+    multiplicity CDATA #IMPLIED
+  >
