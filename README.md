@@ -10,7 +10,8 @@ Repositório contendo fontes de uma aplicação Java utilizada em DOJO para ensi
 1. Forçando Exceptions com os parâmetros de entrada
 2. Forçando Exceptions com doThrow
 3. Validando Exceptions com Try/Catch
-### Exercício 4 (JUnit + Mockito) para métodos retorno Void 
-### Exercício 5 (JUnit + Mockito com @InjectMocks)
+### Exercício 4 (JUnit + Mockito com @InjectMocks)
+### Exercício 5 (JUnit + Mockito) para métodos com retorno Void 
+
 
 
