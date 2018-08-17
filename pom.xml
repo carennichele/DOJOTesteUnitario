@@ -55,6 +55,12 @@
             <version>3.2.7.ga</version>
             <type>jar</type>
         </dependency>
+        <dependency>
+            <groupId>br.com.sicredi.arqref.common.util</groupId>
+            <artifactId>sicredi-arqref-common-logging</artifactId>
+            <version>04.00.00.00</version>
+            <type>jar</type>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

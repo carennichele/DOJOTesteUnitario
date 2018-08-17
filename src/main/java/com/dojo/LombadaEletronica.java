@@ -7,6 +7,8 @@ package com.dojo;
 
 import java.util.Calendar;
 import javax.persistence.EntityManager;
+import br.com.sicredi.arqref.logging.Log;
+import br.com.sicredi.arqref.logging.LogFactory;
 
 /**
  *
@@ -16,6 +18,18 @@ public class LombadaEletronica {
 
     private double valorMulta = 0;
     private EntityManager entityManager;
+    private Log log = null;
+
+    protected Log getLog() {
+        try {
+            log = LogFactory.getLog(LombadaEletronica.class,
+                    "LombadaEletronica-App",
+                    "log4j.properties");
+        } catch (final Exception exe) {
+            exe.printStackTrace();
+        }
+        return log;
+    }
 
     public double getValorMulta() {
         return valorMulta;
@@ -49,10 +63,8 @@ public class LombadaEletronica {
         return retorno;
     }
 
-    // Exemplo 2 - Duas classes (uma classe que usa outra classe que precisa ser
-    // mockada)
-    // Método publico registraInfracao() (ex: via webservice) deve ser chamado
-    // no teste
+    // Exemplo 2 - Uma classe que usa outra classe que precisa ser mockada)
+    // Método publico registraInfracao() deve ser chamado no teste
     // Método interno registraDAO.gravaNoDB() deve ser mockado no teste
     public boolean registraInfracao(double velocidade, Calendar data, String placa) throws InfracaoException {
         boolean retorno = false;
@@ -64,7 +76,9 @@ public class LombadaEletronica {
                 retorno = true;
             }
         } else {
-            throw new InfracaoException(1, "EXCEPTION: DATA OU PLACA NULAS");
+            InfracaoException ex = new InfracaoException(1, "EXCEPTION: DATA OU PLACA NULAS");
+            this.getLog().error(ex);
+            throw ex;
         }
 
         return retorno;

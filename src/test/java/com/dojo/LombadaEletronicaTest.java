@@ -5,6 +5,7 @@
  */
 package com.dojo;
 
+import br.com.sicredi.arqref.logging.Log;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 import org.mockito.invocation.InvocationOnMock;
@@ -36,6 +37,9 @@ import org.mockito.Spy;
 public class LombadaEletronicaTest {
 
     @Mock
+    Log mockLog;
+
+    @Mock
     RegistraDAO registraDAOMock;
 
     @Spy
@@ -48,6 +52,7 @@ public class LombadaEletronicaTest {
     public void setUp() throws InfracaoException {
         MockitoAnnotations.initMocks(this);
 
+        doReturn(mockLog).when(lombadaEletronicaSpy).getLog();
         doReturn(true).when(registraDAOMock).gravaNoDB(any(EntityManager.class), any(Double.class), any(Calendar.class), any(String.class));
         doReturn(registraDAOMock).when(lombadaEletronicaSpy).getRegistraDAO();
     }
@@ -143,7 +148,7 @@ public class LombadaEletronicaTest {
     // - LombadaEletronica = Spy e recebe a classe mockada mockRegistraDAO
     // ------------------------------------------------------------------
     @Test
-    // Verifica infração dia de semana velocidade > 60
+    // Verifica infração final de semana velocidade > 60
     public void test_2_registraInfracao_FinalDeSemana_Velocidade_NOK() throws Exception {
 
         // 1. Instanciar as classes necessárias (a ser testada)
@@ -169,7 +174,7 @@ public class LombadaEletronicaTest {
     // Objetivo: utilizar as annotations @Mock @Spy e @BeforeTest
     // ------------------------------------------------------------------
     @Test
-    // Verifica infração dia de semana velocidade > 60
+    // Verifica infração final de semana velocidade > 60
     public void test_2_registraInfracao_FinalDeSemana_Velocidade_NOK_ComAnnotations() throws Exception {
 
         // 1. Instanciar as classes necessárias (a ser testada)
@@ -235,7 +240,7 @@ public class LombadaEletronicaTest {
 
     // ------------------------------------------------------------------
     // Exercício 3 - testes unitários para testar exceptions (Junit + mockito)
-    // Objetivo: forçar a Exeption com doThrow() e validar Exception recebida
+    // Objetivo: forçar a Exeption e validar atributos da Exception recebida
     // ------------------------------------------------------------------
     @Test
     public void test_3_RegistraInfracao_Exception_TryCatch() throws InfracaoException {
