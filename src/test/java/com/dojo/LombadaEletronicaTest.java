@@ -261,7 +261,7 @@ public class LombadaEletronicaTest {
 
         // 2. Setar os valores de entrada
         // Usar valores que vão retornar exception
-        double iValorVAlocidade = 76;
+        double iValorVelocidade = 76;
         String sPlaca = null;
         Calendar cal = null;
 
@@ -269,7 +269,7 @@ public class LombadaEletronicaTest {
         // No caso de precisar validar detalhes da exception use try/catch e
         // valide com Assert os atributos da Exception recebida
         try {
-            lombadaEletronicaSpy.registraInfracao(iValorVAlocidade, cal, sPlaca);
+            lombadaEletronicaSpy.registraInfracao(iValorVelocidade, cal, sPlaca);
         } catch (InfracaoException ex) {
             assertEquals(1, ex.getCodigo());
             assertEquals("EXCEPTION: DATA OU PLACA NULAS", ex.getMessage());
