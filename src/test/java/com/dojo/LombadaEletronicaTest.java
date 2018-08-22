@@ -6,6 +6,7 @@
 package com.dojo;
 
 import br.com.sicredi.arqref.logging.Log;
+import com.dojo.InfracaoException;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 import org.mockito.invocation.InvocationOnMock;
@@ -23,6 +24,7 @@ import javax.persistence.EntityManager;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
@@ -42,6 +44,7 @@ public class LombadaEletronicaTest {
     @Mock
     RegistraDAO registraDAOMock;
 
+    @InjectMocks
     @Spy
     LombadaEletronica lombadaEletronicaSpy;
 
@@ -51,10 +54,14 @@ public class LombadaEletronicaTest {
     @Before
     public void setUp() throws InfracaoException {
         MockitoAnnotations.initMocks(this);
+        //@InjectMocks irá setar automaticamente o retorno do objeto mockado (mockLog) pelo teste 
+        //doReturn(mockLog).when(lombadaEletronicaSpy).getLog();
 
-        doReturn(mockLog).when(lombadaEletronicaSpy).getLog();
+        //Simula a resposta do método garvaNoBD
         doReturn(true).when(registraDAOMock).gravaNoDB(any(EntityManager.class), any(Double.class), any(Calendar.class), any(String.class));
-        doReturn(registraDAOMock).when(lombadaEletronicaSpy).getRegistraDAO();
+
+        //@InjectMocks irá setar automaticamente o retorno do objeto mockado (registraDAOMock) pelo teste 
+        //doReturn(registraDAOMock).when(lombadaEletronicaSpy).getRegistraDAO();
     }
 
     @After
@@ -76,7 +83,7 @@ public class LombadaEletronicaTest {
     // ------------------------------------------------------------------
     @Test
     // Verifica infração dia de semana e velocidade <= 40
-    public void test_1_verificaSeInfracao_DiaDeSemana_Velocidade_Ok() {
+    public void test_ex1_verificaSeInfracao_DiaDeSemana_Velocidade_Ok() {
         // 1. Instanciar as classes necessárias (a ser testada)
         LombadaEletronica lombadaeletronica = new LombadaEletronica();
         Calendar cal = Calendar.getInstance();
@@ -92,7 +99,7 @@ public class LombadaEletronicaTest {
 
     @Test
     // Verifica infração dia de semana velocidade > 40
-    public void test_1_verificaSeInfracao_DiaDeSemana_Velocidade_NOk() {
+    public void test_ex1_verificaSeInfracao_DiaDeSemana_Velocidade_NOk() {
         // 1. Instanciar as classes necessárias (a ser testada)
         LombadaEletronica lombadaeletronica = new LombadaEletronica();
         Calendar cal = Calendar.getInstance();
@@ -108,7 +115,7 @@ public class LombadaEletronicaTest {
 
     @Test
     // Verifica infração final de semana velocidade <= 60
-    public void test_1_verificaSeInfracao_FinalDeSemana_Velocidade_Ok() {
+    public void test_ex1_verificaSeInfracao_FinalDeSemana_Velocidade_Ok() {
         // 1. Instanciar as classes necessárias (a ser testada)
         LombadaEletronica lombadaeletronica = new LombadaEletronica();
         Calendar cal = Calendar.getInstance();
@@ -124,7 +131,7 @@ public class LombadaEletronicaTest {
 
     @Test
     // Verifica infração final de semana velocidade > 60
-    public void test_1_verificaSeInfracao_FinalDeSemana_Velocidade_NOk() {
+    public void test_ex1_verificaSeInfracao_FinalDeSemana_Velocidade_NOk() {
         // 1. Instanciar as classes necessárias (a ser testada)
         LombadaEletronica lombadaeletronica = new LombadaEletronica();
         Calendar cal = Calendar.getInstance();
@@ -145,16 +152,21 @@ public class LombadaEletronicaTest {
     // (BD)
     // Passos:
     // - registraDAO = Mockar e simular respostado metodo gravaNoDB()
-    // - LombadaEletronica = Spy e recebe a classe mockada mockRegistraDAO
+    // - LombadaEletronica = Spy e usa a classe mockada mockRegistraDAO
     // ------------------------------------------------------------------
-    @Test
+    //@Test
     // Verifica infração final de semana velocidade > 60
-    public void test_2_registraInfracao_FinalDeSemana_Velocidade_NOK() throws Exception {
+    //
+    // teste comentado, pois para utilizar o @InjectMocks retiramos o wrapper getRegistraDAO()
+    // o teste test_ex2_registraInfracao_FinalDeSemana_Velocidade_NOK_ComAnnotations cobre este cenário
+    /*
+    public void test_ex2_registraInfracao_FinalDeSemana_Velocidade_NOK() throws Exception {
 
         // 1. Instanciar as classes necessárias (a ser testada)
         RegistraDAO registraDAOMock = mock(RegistraDAO.class);
         LombadaEletronica lombadaEletronica = new LombadaEletronica();
         LombadaEletronica lombadaEletronicaSpy = spy(lombadaEletronica);
+
         // 2. Setar os valores de entrada
         // Simula a resposta do metodo gravaNoDB retornando "true"
         // Mocka o DAO utilizado pela classe a ser testada lombadaEletronicaSpy
@@ -168,14 +180,14 @@ public class LombadaEletronicaTest {
         // 3. Chamar o método e verificar o resultado com o “Assert” do Junit
         assertTrue(lombadaEletronicaSpy.registraInfracao(76, cal, "ISB3389"));
     }
-
+     */
     // ------------------------------------------------------------------
     // Exercício 2 - teste unitário (Junit + mockito + @Mock @Spy + @BeforeTest)
     // Objetivo: utilizar as annotations @Mock @Spy e @BeforeTest
     // ------------------------------------------------------------------
     @Test
     // Verifica infração final de semana velocidade > 60
-    public void test_2_registraInfracao_FinalDeSemana_Velocidade_NOK_ComAnnotations() throws Exception {
+    public void test_ex2_registraInfracao_FinalDeSemana_Velocidade_NOK_ComAnnotations() throws Exception {
 
         // 1. Instanciar as classes necessárias (a ser testada)
         // O registro das instancias das classes necesárias será por annotation
@@ -195,7 +207,7 @@ public class LombadaEletronicaTest {
     // Objetivo: validar Exception recebida
     // ------------------------------------------------------------------
     @Test(expected = InfracaoException.class)
-    public void test_3_RegistraInfracao_Exception() throws InfracaoException {
+    public void test_ex3_RegistraInfracao_Exception() throws InfracaoException {
         // 1. Instanciar as classes necessárias (a ser testada)
         // O registro das instancias das classes necesárias será por annotation
 
@@ -217,7 +229,7 @@ public class LombadaEletronicaTest {
     // Objetivo: validar Exception recebida
     // ------------------------------------------------------------------
     @Test(expected = InfracaoException.class)
-    public void test_3_RegistraInfracao_Exception_doThrow() throws InfracaoException {
+    public void test_ex3_RegistraInfracao_Exception_doThrow() throws InfracaoException {
         // 1. Instanciar as classes necessárias (a ser testada)
         // O registro das instancias das classes necesárias será por annotation
 
@@ -243,7 +255,7 @@ public class LombadaEletronicaTest {
     // Objetivo: forçar a Exeption e validar atributos da Exception recebida
     // ------------------------------------------------------------------
     @Test
-    public void test_3_RegistraInfracao_Exception_TryCatch() throws InfracaoException {
+    public void test_ex3_RegistraInfracao_Exception_TryCatch() throws InfracaoException {
         // 1. Instanciar as classes necessárias (a ser testada)
         // O registro das instancias das classes necesárias será por annotation
 
@@ -275,11 +287,9 @@ public class LombadaEletronicaTest {
     // - Incluir o Assert que valida valor de input recebido pelo metodoTwoVoid
     // ------------------------------------------------------------------
     @Test
-    public void test_4_RegistraInfracao_MetodoVoid_1() {
+    public void test_ex4_RegistraInfracao_MetodoVoid_1() {
         // 1. Instanciar as classes necessárias (a ser testada)
-
-        LombadaEletronica lombadaEletronica = new LombadaEletronica();
-        LombadaEletronica lombadaEletronicaSpy = spy(lombadaEletronica);
+        // O registro das instancias das classes necesárias será por annotation
 
         // 2. Setar os valores de entrada
         // simula a resposta Void do metodoTwoVoid
@@ -305,11 +315,9 @@ public class LombadaEletronicaTest {
     // o atributo privado da classe que armazena este valor
     // ------------------------------------------------------------------
     @Test
-    public void test_4_RegistraInfracao_MetodoVoid_2() {
+    public void test_ex4_RegistraInfracao_MetodoVoid_2() {
         // 1. Instanciar as classes necessárias (a ser testada)
-
-        LombadaEletronica lombadaEletronica = new LombadaEletronica();
-        LombadaEletronica lombadaEletronicaSpy = spy(lombadaEletronica);
+        // O registro das instancias das classes necesárias será por annotation
 
         // 2. Setar os valores de entrada
         double iValorInput = 3;

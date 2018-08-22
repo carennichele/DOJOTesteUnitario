@@ -18,9 +18,17 @@ public class LombadaEletronica {
 
     private double valorMulta = 0;
     private EntityManager entityManager;
-    private Log log = null;
+    private Log log;
 
-    protected Log getLog() {
+    // Não precisa mais de wrapper getRegistraDAO()
+    // a inicialização do objeto RegistraDAO foi retirado de dentro do método e
+    // colocado como propriedade da classe, pois @InjectMocks funciona em:
+    // - propriedades da classe
+    // - parâmetros de metodos
+    // - parâmetros de construtor da classe
+    RegistraDAO registraDAO = new RegistraDAO();
+
+    void setLog() {
         try {
             log = LogFactory.getLog(LombadaEletronica.class,
                     "LombadaEletronica-App",
@@ -28,17 +36,14 @@ public class LombadaEletronica {
         } catch (final Exception exe) {
             exe.printStackTrace();
         }
-        return log;
+    }
+
+    void LombadaEletronica() {
+        this.setLog();
     }
 
     public double getValorMulta() {
         return valorMulta;
-    }
-
-    // necessario para o teste unitario mockar a classe RegistraBD de acesso
-    // interno da LombadaEletronica
-    protected RegistraDAO getRegistraDAO() {
-        return new RegistraDAO();
     }
 
     // Exemplo 1
@@ -72,12 +77,19 @@ public class LombadaEletronica {
         if (data != null && placa != null) {
             if (verificaSeInfracao(velocidade, data)) {
 
-                this.getRegistraDAO().gravaNoDB(entityManager, velocidade, data, placa);
+                this.registraDAO.gravaNoDB(entityManager, velocidade, data, placa);
                 retorno = true;
             }
         } else {
             InfracaoException ex = new InfracaoException(1, "EXCEPTION: DATA OU PLACA NULAS");
-            this.getLog().error(ex);
+            // Não precisa mais de wrapper getLog()
+            // a inicialização do objeto RegistraDAO foi retirado de dentro do método e
+            // colocado como propriedade da classe, pois @InjectMocks funciona em:
+            // - propriedades da classe
+            // - parâmetros de metodos
+            // - parâmetros de construtor da classe
+
+            this.log.error(ex);
             throw ex;
         }
 
