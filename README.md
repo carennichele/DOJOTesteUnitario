@@ -1,7 +1,7 @@
 # DOJO Teste Unitário - Implementação dos Exerciícios
 Repositório contendo fontes de uma aplicação Java utilizada em DOJO para ensinar sobre como implementar Testes Unitários utilizando Junit e Mockito.
 
-Os fontes contém a implementação do exercícios propostos, e as refatorações necessárias.
+Os fontes contém a implementação dos exercícios propostos, e as refatorações necessárias.
 
 ## Dicas
 Para implementar um teste unitário tenha em mente os seguintes passos:
@@ -83,7 +83,19 @@ assertTrue(lombadaEletronicaSpy.registraInfracao(75, cal, “ISB7374”));
 ```
 
 ### Exercício 3 (JUnit + Mockito) simulando exceptions
-Testes unitários para validar exceptions do método público registraInfracao()
+Testes unitários para validar exceptions do método público registraInfracao().
+
+Pode ser feito de duas maneiras de forçar a exception:
+1. Passar valores que forcem o retorno da Exception pelo método
+2. Usar o doThrow(new <Exception>, when(<class>))
+
+Duas maneiras de fazer a validação via JUnit:
+1. Incluir uma tag ao lado da tag @Test (utilizado quando se deseja validar somente o tipo da exception retornada):
+ ```Java
+ @Test (expected = <ExceptionClass>.class)
+  ```
+2. Usar Try/Catch e Assert (utilizado quando se deseja validar atributos mais detalhados da exception, ex: código, descrição da exception)
+
 
 #### Forçando Exceptions com os parâmetros de entrada
 Teste unitário forçando exception via valores de input + Refatorar o “Static Log”.
@@ -109,8 +121,8 @@ Calendar cal = Calendar.getInstance();
 cal.set(2017, 5, 10, 10, 30, 00);
 String sPlaca = "ISB3389";
 
-assertTrue(lombadaEletronicaSpy.registraInfracao(null, cal, sPlaca));
-  }
+lombadaEletronicaSpy.registraInfracao(null, cal, sPlaca); 
+}
 ```
 
 #### Forçando Exceptions com doThrow
@@ -125,16 +137,16 @@ public void test_Ex2_registraInfracao_FinalDeSemana_Velocidade_NOK_ComAnnotation
   String sPlaca = "ISB3389";
 
   doThrow(new InfracaoException(1, "EXCEPTION: DATA OU PLACA NULAS")).when(lombadaEletronicaSpy)
-                .registraInfracao(any(Double.class), any(Calendar.class), any(String.class));
+                .registraInfracao(any(Double.class), any(Calendar.class),any(String.class));
 
-assertTrue(lombadaEletronicaSpy.registraInfracao(70, cal, sPlaca));
-  }
+  lombadaEletronicaSpy.registraInfracao(76, cal, "ISB3389");
+}
 ```
 #### Validando Exceptions com Try/Catch
-Teste unitário forçando uma exception via parãmetros de entrada e capturando a exception via Try/Catch no teste.
+Teste unitário forçando uma exception via parâmetros de entrada e validando os parametros da exception via Try/Catch + Assert.
 
 ```Java
-@Test(expected = InfracaoException.class)
+@Test
 public void test_Ex2_registraInfracao_FinalDeSemana_Velocidade_NOK_ComAnnotations() throws Exception {
 
   try {
@@ -143,7 +155,7 @@ public void test_Ex2_registraInfracao_FinalDeSemana_Velocidade_NOK_ComAnnotation
               assertEquals(1, ex.getCodigo());
               assertEquals("EXCEPTION: DATA OU PLACA NULAS", ex.getMessage());
           }
-  }
+}
 ```
 
 ### Exercício 4 (JUnit + Mockito com @InjectMocks)
