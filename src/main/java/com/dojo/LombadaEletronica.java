@@ -7,8 +7,8 @@ package com.dojo;
 
 import java.util.Calendar;
 import javax.persistence.EntityManager;
-import br.com.sicredi.arqref.logging.Log;
-import br.com.sicredi.arqref.logging.LogFactory;
+import org.apache.commons.logging.LogFactory;
+import org.apache.commons.logging.Log;
 
 /**
  *
@@ -30,9 +30,8 @@ public class LombadaEletronica {
 
     void setLog() {
         try {
-            log = LogFactory.getLog(LombadaEletronica.class,
-                    "LombadaEletronica-App",
-                    "log4j.properties");
+            log = LogFactory.getLog("C:\teste.log");
+
         } catch (final Exception exe) {
             exe.printStackTrace();
         }

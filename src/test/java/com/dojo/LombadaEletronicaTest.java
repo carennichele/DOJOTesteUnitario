@@ -5,7 +5,8 @@
  */
 package com.dojo;
 
-import br.com.sicredi.arqref.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.commons.logging.Log;
 import com.dojo.InfracaoException;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
